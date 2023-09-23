@@ -1,9 +1,4 @@
-# Para correr el servidor: uvicorn server:app --reload
-# se debe instalar uvicorn: pip install uvicorn
-# se debe instalar FastAPI: pip install fastapi
 from fastapi import FastAPI
-from pydantic import BaseModel
-from typing import Union
 from paquete.cola import Cola
 
 app = FastAPI()
@@ -11,17 +6,17 @@ cola = Cola()
 
 @app.get("/")
 def read_root():
-    return {"Hello": "World", "estado": True}
+    return {"Hello": "Beautiful World"}
 
 @app.get("/estado")
 def estado():
     elementos = cola.contar()
-    return {"status": "Melo", "elementos": 10}
+    return {"status": "ok", "elementos": elementos}
 
 @app.post("/encolar")
 def encolar(item: dict):
     cola.encolar(item)
-    return {"status": "ok", "metodo": "encolar"}
+    return {"status": "ok"}
 
 @app.get("/desencolar")
 def desencolar():
@@ -30,5 +25,19 @@ def desencolar():
 
 @app.get("/ver_todos")
 def ver_todos():
-    elemento = cola.ver_listado
-    return {"status": "ok", "elementos": elemento}
+    elementos = cola.ver_listado()
+    return {"status": "ok", "elementos": elementos}
+
+@app.get("/ver_ultimo")
+def ver_ultimo():
+    elemento = cola.ver_ultimo()
+    if elemento:
+        return {"status": "ok", "elemento": elemento}
+
+@app.get("/cancelar_pedido/{mensaje_id}")
+def cancelar_pedido(mensaje_id: int):
+    elemento = cola.desencolar_id(mensaje_id)
+    if elemento is not None:
+        return {"status": "ok", "message_id": mensaje_id, "message": "Pedido cancelado"}
+    else:
+        return {"status": "error", "message_id": mensaje_id, "message": "Pedido no encontrado"}
