@@ -1,29 +1,38 @@
-# Importa la librería random
+#Libreria random para los numeros aleatorios
 import random
 
-# Función para generar una lista de nodos aleatorios
-def generar_lista_de_nodos(numero_de_nodos):
-    lista_de_nodos = []
-    
-    for nodo_actual in range(numero_de_nodos):
-        nodo_minimo = nodo_actual
-        nodo_maximo = nodo_actual + 10
-        nodo_aleatorio = random.randint(nodo_minimo, nodo_maximo)
-        lista_de_nodos.append(nodo_aleatorio)
-    
-    return lista_de_nodos
+#Clase nodo, cada uno tiene un dato y una dirección
+class Nodo:
+    def __init__(self, dato):
+        self.dato = dato
+        self.direccion = None
 
-# Solicita al usuario la cantidad de nodos que desea crear
-try:
-    numero_de_nodos = int(input("Ingrese el número de nodos a crear: "))
-except ValueError:
-    print("Error: Ingrese un número válido.")
-    exit(1)
+#En este bloque se crea una funcion recursiva para crear a los nodos
+def crear_nodo_aleatorio(n):
+    if n <= 0:
+        return None
+    else:
+        # Genera número aleatorio entre 1 y 50
+        dato_aleatorio = random.randint(1,50)  
+        nodo = Nodo(dato_aleatorio)
+        #Aqui resta uno al numero total de nodos, para seguir con el otro
+        nodo.direccion = crear_nodo_aleatorio(n - 1)
+        return nodo
 
-# Llama a la función para generar la lista de nodos
-nodos_generados = generar_lista_de_nodos(numero_de_nodos)
+#En este bloque creamos otra funcion recursiva donde muestra ahora cada nodo, y el =1 es para empezar por el primer numero
+def mostrar_nodos(nodo, numero_nodo=1):
+    if nodo is None:
+        return []
+    else:
+        resultado_actual = f"Nodo {numero_nodo}: {nodo.dato}"
+        return [resultado_actual] + mostrar_nodos(nodo.direccion, numero_nodo + 1)
 
-# Imprime la lista con los nodos generados
-print("Lista de nodos generada:")
-for indice, nodo in enumerate(nodos_generados):
-    print(f"Nodo {indice + 1}: {nodo}")
+num_nodos = int(input("Ingrese la cantidad de nodos a crear: "))
+print("-"*45)
+print(f"La cantidad de nodos creados son: {num_nodos}")
+nodo_inicial = crear_nodo_aleatorio(num_nodos)
+datos_nodos = mostrar_nodos(nodo_inicial)
+
+for dato in datos_nodos:
+    print(dato)
+print("-"*45)

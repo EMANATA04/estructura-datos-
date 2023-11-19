@@ -1,13 +1,14 @@
-edades = [35, 12, 15, 40, 20]
+edades = [11, 21, 23, 35, 45]
 
-def promedio_edades (edades):
+def promedio_edades(edades):
     suma = 0
-    for n in edades:
-        suma = suma + n
+    for i in edades:
+        suma = suma + i
+    return suma / len(edades)
 
-    return suma / len (edades)
-for n in edades: 
-    print(f"edades: {n}")    
+promedio = promedio_edades(edades)
 
-promedio = promedio_edades (edades)
-print (f"el pormedio de las edades es {promedio}")
+print(f"El promedio de edades es: {promedio}")
+
+for i in edades:
+    print (f"Edad:  {i}")

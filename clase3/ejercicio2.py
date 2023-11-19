@@ -1,7 +1,12 @@
-def factorial (n):
-    if n == 1:
-        return 1
-    return n * factorial (n - 1)
+"""
+Calcular multiplicacion con sums y division con restas
+"""
 
-resultados = factorial (5)
-print(f"la factorial de 5 es {resultado}")
+print("Multiplicación de sumas")
+def suma(n1,n2):
+    if n2 == 1:
+        return n1
+    return n1 + suma(n1,n2-1)
+
+total = suma(3,5)
+print(f"resultado {total}")
